@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import SearchFilters from "./searchfilter";
 
 const Navbar = () => {
     return (
@@ -7,8 +8,16 @@ const Navbar = () => {
             <div className="max-w-[1500px] mx-auto px-6">
                 <div className="flex justify-between items-center">
                     <Link href="/">
-                        <Image src="/logo.png" alt="Airbnb Logo" width={100} height={100} />
+                        <Image src="/logo.png" alt="DjangoBnb Logo" width={100} height={100} />
                     </Link>
+
+                    <div className="flex space-x-6">
+                        <SearchFilters />
+                    </div>
+
+                    <div className="flex items-center space-x-6">
+                       add - property and user nav
+                    </div>
                 </div>
             </div>
             
