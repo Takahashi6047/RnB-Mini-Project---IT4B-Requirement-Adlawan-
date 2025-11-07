@@ -1,5 +1,6 @@
 const SearchFilters = () => {
     return (
+        <div>
         <div  className="h-[48px] lg:h-[64] flex flex-row items-center justify-between border border-gray-200 rounded-full">
              <div className="hidden lg:block">
                 <div className="flex flex-row items-center justify-between">
@@ -36,6 +37,7 @@ const SearchFilters = () => {
                     </svg>
                 </div>
             </div>
+        </div>
         </div>
     )
 }
