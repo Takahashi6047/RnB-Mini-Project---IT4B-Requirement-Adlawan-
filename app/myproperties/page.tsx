@@ -12,4 +12,4 @@ const MyPropertiesPage = () => {
     )
 }
 
-export default MyPropertiesPage;
+export default MyPropertiesPage; 
