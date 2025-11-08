@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 // components 
-import SearchFilters from "./searchfilter";
-import UserNav from "./usernav";
-import AddPropertyBtn from "./addpropertybtn";
+import SearchFilters from "./SearchFilter";
+import UserNav from "./UserNav";
+import AddPropertyBtn from "./AddPropertyBtn";
 
 
 const Navbar = () => {

@@ -1,5 +1,5 @@
 'use client';
-import CustomBtn from "../forms/customBtn";
+import CustomBtn from "../forms/CustomBtn";
 
 const ConversationDetail = () => {
     return (

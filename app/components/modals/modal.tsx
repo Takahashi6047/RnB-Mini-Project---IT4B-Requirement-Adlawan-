@@ -39,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({
                 <div className={`translate duration-600 h-full ${showModal ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-10'}`}>
                     <div className="w-full h-auto rounded-xl relative flex flex-col bg-white">
 
-                        <header className="h-[60px] flex items-center p-6 rounded-t justify-center relative border-b">
+                        <header className="h-[60px] flex items-center p-6 rounded-t justify-center relative border-gray-300 border-b">
                             <div 
                                 onClick={handleClose}
                                 className="p-3 absolute left-3 hover:bg-gray-300 rounded-full cursor-pointer"
