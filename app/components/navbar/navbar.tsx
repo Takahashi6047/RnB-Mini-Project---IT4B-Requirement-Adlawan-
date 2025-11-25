@@ -4,10 +4,13 @@ import Image from "next/image";
 // components 
 import SearchFilters from "./SearchFilter";
 import UserNav from "./UserNav";
+import { getUserId } from '@/app/lib/actions';
 import AddPropertyBtn from "./AddPropertyBtn";
 
 
-const Navbar = () => {
+const Navbar = async () => {
+    const userId = await getUserId();
+
     return (
         <div>
             <nav className="w-full fixed top-0 left-0 py-6 border-b border-gray-300 bg-white z-10">
@@ -23,7 +26,9 @@ const Navbar = () => {
 
                     <div className="flex items-center space-x-6">
                         <AddPropertyBtn />
-                       <UserNav />
+                       <UserNav 
+                            userId={userId}
+                        />
                     </div>
                 </div>
             </div>

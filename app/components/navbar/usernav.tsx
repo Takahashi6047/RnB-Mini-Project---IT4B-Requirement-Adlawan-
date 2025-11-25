@@ -1,13 +1,19 @@
-
 'use client';
 
 import { useState } from "react";
-import MenuLink from "./MenuLink";
+import MenuLink from "./Menulink";
+import LogoutBtn from "../LogoutBtn";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useSignUpModal from "@/app/hooks/useSignUpModal";
 
-const UserNav = () => {
+interface UserNavProps {
+    userId?: string | null;
+}
+
+const UserNav: React.FC<UserNavProps> = ({
+    userId
+}) => {
     const loginModal = useLoginModal()
     const signupModal = useSignUpModal()
     const [isOpen, setIsOpen] = useState(false)
@@ -29,21 +35,30 @@ const UserNav = () => {
 
             {isOpen && (
                 <div className="w-[220px] absolute top-[60px] right-0 bg-white border border-gray-300 rounded-xl shadow-md flex flex-col cursor-pointer overflow-hidden">
-                    <MenuLink 
-                        label="Login" 
-                        onClick={() => {
-                            setIsOpen(false);
-                            loginModal.open()
-                        }} 
-                    />
+                    {userId ? (
+                        <LogoutBtn />
+                    ) : (
+                       <>
+                            <MenuLink 
+                                label="Login" 
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    loginModal.open()
+                                }} 
+                        />
 
-                     <MenuLink 
+                            <MenuLink 
                                 label='Sign up'
                                 onClick={() => {
                                     setIsOpen(false);
                                         signupModal.open();
                                     }}
-                            />
+                        />
+                    
+                       </> 
+                        
+                    )}
+                    
                 </div>
             )}
         </div>
