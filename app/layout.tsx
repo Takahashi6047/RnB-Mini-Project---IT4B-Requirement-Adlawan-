@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/navbar/NavBar";
+import Navbar from "./components/navbar/Navbar";
 import LoginModal from "./components/modals/LoginModal";
 import SignUpModal from "./components/modals/SignUpModal";
+import AddPropertyModal from "./components/modals/AddPropertyModal";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,7 +38,7 @@ export default function RootLayout({
         
         <LoginModal />
         <SignUpModal />
-
+        <AddPropertyModal/>
        
       </body>
     </html>
