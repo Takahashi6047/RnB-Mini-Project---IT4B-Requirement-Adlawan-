@@ -24,12 +24,12 @@ const SignUpModal = () => {
             password2: password2
         }
 
-            const response = await apiService.post('/api/auth/register/', JSON.stringify(formData));
+        const response = await apiService.postWithoutToken('/api/auth/register/', JSON.stringify(formData));
 
 
         if (response.access) {
             handleLogin(response.user.pk, response.access, response.refresh);
-            
+
             signUpModal.close();
 
             router.push('/')
@@ -46,7 +46,7 @@ const SignUpModal = () => {
         <>
             <h2 className="mb-6 text-2xl"> Sign up</h2>
 
-            <form 
+            <form
                 action={submitSignup}
                 className="space-y-4"
             >
@@ -58,7 +58,7 @@ const SignUpModal = () => {
 
                 {errors.map((error, index) => {
                     return (
-                        <div 
+                        <div
                             key={`error_${index}`}
                             className="p-5 bg-airbnb text-white rounded-xl opacity-80"
                         >
@@ -66,7 +66,7 @@ const SignUpModal = () => {
                         </div>
                     )
                 })}
-               
+
                 <CustomBtn
                     label="Submit"
                     onClick={submitSignup}
@@ -74,7 +74,7 @@ const SignUpModal = () => {
             </form>
         </>
     )
-    
+
     return (
         <>
             <Modal

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PropertyType } from "./propertylist";
+import { useRouter } from "next/navigation";
 
 interface PropertyProps {
     property: PropertyType,
@@ -8,11 +9,15 @@ interface PropertyProps {
 const PropertyListItems: React.FC<PropertyProps> = ({
     property,
 }) => {
+    const router = useRouter()
 
     return (
-        <div className="cursor-pointer">
+        <div
+            className="cursor-pointer"
+            onClick={() => router.push(`/properties/${property.id}`)}
+        >
             <div className="relative overflow-hidden aspect-square rounded-xl">
-                 <Image
+                <Image
                     fill
                     src={property.image_url}
                     sizes="(max-width: 768px) 768px, (max-width: 1200px): 768px, 768px"
@@ -24,11 +29,11 @@ const PropertyListItems: React.FC<PropertyProps> = ({
             <div className="mt-2">
                 <p className="text-lg font-bold">{property.title}</p>
             </div>
-            
-           <p className="text-sm text-gray-500">
+
+            <p className="text-sm text-gray-500">
                 <strong>${property.price_per_night} </strong>
                 per night
-             </p>
+            </p>
         </div>
     )
 }
