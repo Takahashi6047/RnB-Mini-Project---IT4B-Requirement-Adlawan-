@@ -13,14 +13,29 @@ export type PropertyType = {
     is_favorite: boolean;
 }
 
-const PropertyList = () => {
+interface PropertyListProps {
+    landlord_id?: string | null;
+    favorites?: boolean | null;
+}
+
+const PropertyList: React.FC<PropertyListProps> = ({
+    landlord_id,
+    favorites
+}) => {
+
     const [properties, setProperties] = useState<PropertyType[]>([]);
 
     const getProperties = async () => {
-        const tmpProperties = await apiService.get('/api/properties/')
+        let url = '/api/properties/';
+
+        if (landlord_id) {
+            url += `?landlord_id=${landlord_id}`
+        }
+
+        const tmpProperties = await apiService.get(url)
 
         setProperties(tmpProperties.data);
-    };    
+    };
 
 
     useEffect(() => {
@@ -30,17 +45,17 @@ const PropertyList = () => {
 
     return (
         <>
-            {properties.map((property) =>  {
+            {properties.map((property) => {
                 return (
-                    <PropertyListItems 
-                        key={property.id} 
+                    <PropertyListItems
+                        key={property.id}
                         property={property}
                     />
                 )
             })}
-            
-            
-       </>
+
+
+        </>
     )
 }
 
