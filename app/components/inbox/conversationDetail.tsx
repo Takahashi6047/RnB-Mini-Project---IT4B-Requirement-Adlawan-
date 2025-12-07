@@ -1,5 +1,5 @@
 'use client';
-import CustomBtn from "../forms/CustomBtn";
+import CustomBtn from "../forms/customBtn";
 
 const ConversationDetail = () => {
     return (
@@ -24,11 +24,11 @@ const ConversationDetail = () => {
                 />
 
                 <CustomBtn
-                onClick={() => console.log('clicked')}
-                label="Send"
-                className="w-[100px]"
+                    onClick={() => console.log('clicked')}
+                    label="Send"
+                    className="w-[100px]"
                 />
-                
+
             </div>
         </>
     )
