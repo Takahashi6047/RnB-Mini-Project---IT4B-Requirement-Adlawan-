@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/navbar/navbar";
 import LoginModal from "./components/modals/LoginModal";
 import SignUpModal from "./components/modals/SignUpModal";
 import AddPropertyModal from "./components/modals/AddPropertyModal";
@@ -35,11 +35,11 @@ export default function RootLayout({
         <div className="pt-32">
           {children}
         </div>
-        
+
         <LoginModal />
         <SignUpModal />
-        <AddPropertyModal/>
-       
+        <AddPropertyModal />
+
       </body>
     </html>
   );
