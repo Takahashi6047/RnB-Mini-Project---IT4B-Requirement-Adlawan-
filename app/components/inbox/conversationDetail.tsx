@@ -1,7 +1,41 @@
 'use client';
-import CustomBtn from "../forms/customBtn";
 
-const ConversationDetail = () => {
+import { useEffect, useState, useRef } from "react";
+import CustomBtn from "../forms/customBtn";
+import { ConversationType } from "@/app/inbox/page";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import { MessageType } from "@/app/inbox/[id]/page";
+import { UserType } from "@/app/inbox/page";
+
+interface ConversationDetailProps {
+    token: string;
+    userId: string;
+    conversation: ConversationType;
+    messages: MessageType[];
+}
+
+const ConversationDetail: React.FC<ConversationDetailProps> = ({
+    userId,
+    token,
+    messages,
+    conversation
+}) => {
+    const messagesDiv = useRef<HTMLDivElement>(null);
+    const [newMessage, setNewMessage] = useState('');
+    const myUser = conversation.users?.find((user) => user.id == userId)
+    const otherUser = conversation.users?.find((user) => user.id != userId)
+    const [realtimeMessages, setRealtimeMessages] = useState<MessageType[]>([]);
+
+    const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(`${process.env.NEXT_PUBLIC_WS_HOST}/ws/${conversation.id}/?token=${token}`, {
+        share: false,
+        shouldReconnect: () => true,
+    },
+    )
+
+    useEffect(() => {
+        console.log("Connection state changed", readyState);
+    }, [readyState]);
+
     return (
         <>
             <div className="max-h-[400px] overflow-auto flex flex-col space-y-4">
