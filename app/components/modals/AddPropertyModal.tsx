@@ -3,12 +3,12 @@
 import Image from 'next/image';
 
 import { ChangeEvent, useState } from 'react';
-import Modal from './Modal';
-import CustomButton from '../forms/CustomBtn';
+import Modal from './modal';
+import CustomButton from '../forms/customBtn';
 import Categories from '../addproperty/Categories';
 
 import useAddPropertyModal from '@/app/hooks/useAddPropertyModal';
-import SelectCountry, {SelectCountryValue} from '../forms/SelectCountry';
+import SelectCountry, { SelectCountryValue } from '../forms/SelectCountry';
 
 import apiService from '@/app/services/apiService';
 import { useRouter } from 'next/navigation';
@@ -51,6 +51,23 @@ const AddPropertyModal = () => {
     }
 
     //
+    // Reset form
+
+    const resetForm = () => {
+        setCurrentStep(1);
+        setErrors([]);
+        setDataCategory('');
+        setDataTitle('');
+        setDataDescription('');
+        setDataPrice('');
+        setDataBedrooms('');
+        setDataBathrooms('');
+        setDataGuests('');
+        setDataCountry(undefined);
+        setDataImage(null);
+    }
+
+    //
     // SUbmit
 
     const submitForm = async () => {
@@ -81,9 +98,11 @@ const AddPropertyModal = () => {
             if (response.success) {
                 console.log('SUCCESS :-D');
 
-                router.push('/?added=true');
-
+                resetForm(); // Reset form fields
                 addPropertyModal.close();
+
+                router.refresh(); // Force Next.js to re-fetch data
+                router.push('/?added=true');
             } else {
                 console.log('Error');
 
@@ -213,7 +232,7 @@ const AddPropertyModal = () => {
                     <h2 className='mb-6 text-2xl'>Location</h2>
 
                     <div className='pt-3 pb-6 space-y-4'>
-                        <SelectCountry 
+                        <SelectCountry
                             value={dataCountry}
                             onChange={(value) => setDataCountry(value as SelectCountryValue)}
                         />
