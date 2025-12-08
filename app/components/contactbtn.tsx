@@ -13,11 +13,29 @@ const ContactButton: React.FC<ContactButtonProps> = ({
     userId,
     landlordId
 }) => {
+    const loginModal = useLoginModal();
+    const router = useRouter();
+
+    const startConversation = async () => {
+        if (userId) {
+            const conversation = await apiService.get(`/api/chat/start/${landlordId}/`)
+
+            if (conversation.conversation_id) {
+                router.push(`/inbox/${conversation.conversation_id}`)
+            }
+        } else {
+            loginModal.open();
+        }
+    }
+
     return (
-        <button className="mt-6 py-4 px-6 cursor-pointer bg-airbnb text-white rounded-xl hover:bg-airbnb-dark transition">
+        <div
+            onClick={startConversation}
+            className="mt-6 py-4 px-6 cursor-pointer bg-airbnb text-white rounded-xl hover:bg-airbnb-dark transition"
+        >
             Contact
-        </button>
+        </div>
     )
 }
 
-export default ContactButton
+export default ContactButton;
