@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from "react";
-import CustomBtn from "../forms/customBtn";
+import CustomButton from "../forms/customBtn";
 import { ConversationType } from "@/app/inbox/page";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { MessageType } from "@/app/inbox/[id]/page";
@@ -36,18 +36,74 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         console.log("Connection state changed", readyState);
     }, [readyState]);
 
+    useEffect(() => {
+        if (lastJsonMessage && typeof lastJsonMessage === 'object' && 'name' in lastJsonMessage && 'body' in lastJsonMessage) {
+            const message: MessageType = {
+                id: '',
+                name: lastJsonMessage.name as string,
+                body: lastJsonMessage.body as string,
+                sent_to: otherUser as UserType,
+                created_by: myUser as UserType,
+                conversationId: conversation.id
+            }
+
+            setRealtimeMessages((realtimeMessages) => [...realtimeMessages, message]);
+        }
+
+        scrollToBottom();
+    }, [lastJsonMessage]);
+
+    const sendMessage = async () => {
+        console.log('sendMessage'),
+
+            sendJsonMessage({
+                event: 'chat_message',
+                data: {
+                    body: newMessage,
+                    name: myUser?.name,
+                    sent_to_id: otherUser?.id,
+                    conversation_id: conversation.id
+                }
+            });
+
+        setNewMessage('');
+
+        setTimeout(() => {
+            scrollToBottom()
+        }, 50);
+    }
+
+    const scrollToBottom = () => {
+        if (messagesDiv.current) {
+            messagesDiv.current.scrollTop = messagesDiv.current.scrollHeight;
+        }
+    }
+
     return (
         <>
-            <div className="max-h-[400px] overflow-auto flex flex-col space-y-4">
-                <div className="w-[80%]py-4 px-6 rounded-xl bg-gray-200">
-                    <p className="font-bold text-gray-500">John Doe</p>
-                    <p className="text-gray-500">this is john's msg</p>
-                </div>
+            <div
+                ref={messagesDiv}
+                className="max-h-[400px] overflow-auto flex flex-col space-y-4"
+            >
+                {messages.map((message, index) => (
+                    <div
+                        key={index}
+                        className={`w-[80%]py-4 px-6 rounded-xl ${message.created_by.name == myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200'}`}
+                    >
+                        <p className="font-bold text-gray-500">{message.created_by.name}</p>
+                        <p>{message.body}</p>
+                    </div>
+                ))}
 
-                <div className="w-[80%]py-4 ml-[20%] px-6 rounded-xl bg-blue-200">
-                    <p className="font-bold text-gray-500">John Doe</p>
-                    <p className="text-gray-500">this is my msg</p>
-                </div>
+                {realtimeMessages.map((message, index) => (
+                    <div
+                        key={index}
+                        className={`w-[80%]py-4 px-6 rounded-xl ${message.name == myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200'}`}
+                    >
+                        <p className="font-bold text-gray-500">{message.name}</p>
+                        <p>{message.body}</p>
+                    </div>
+                ))}
             </div>
 
             <div className="mt-4 py-4 px-6 flex border border-gray-300 space-x-4 rounded-xl">
@@ -55,14 +111,15 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
                     type="text"
                     placeholder="Type your message..."
                     className="w-full p-2 bg-gray-200 rounded-xl"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
                 />
 
-                <CustomBtn
-                    onClick={() => console.log('clicked')}
-                    label="Send"
+                <CustomButton
+                    label='Send'
+                    onClick={sendMessage}
                     className="w-[100px]"
                 />
-
             </div>
         </>
     )
